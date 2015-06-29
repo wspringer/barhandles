@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "coffee -m -o lib -c src",
+    "install": "npm run build",
     "test": "mocha --recursive -C --compilers coffee:coffee-script/register test"
   },
   "keywords": [
