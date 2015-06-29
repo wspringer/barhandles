@@ -1,0 +1,29 @@
+{
+  "name": "barhandles",
+  "version": "0.1.0",
+  "description": "Extract references from Handlebars templates",
+  "main": "lib/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "coffee -m -o lib -c src",
+    "test": "mocha --recursive -C --compilers coffee:coffee-script/register test"
+  },
+  "keywords": [
+    "handlebars"
+  ],
+  "author": "Wilfred Springer",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "coffee-script": "^1.9.3",
+    "mocha": "^2.2.5",
+    "sinon": "^1.15.4",
+    "sinon-chai": "^2.8.0"
+  },
+  "dependencies": {
+    "handlebars": "^3.0.3",
+    "lodash": "^3.9.3"
+  }
+}
