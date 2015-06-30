@@ -6,6 +6,10 @@
   "directories": {
     "test": "test"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wspringer/barhandles/"
+  },
   "scripts": {
     "build": "coffee -m -o lib -c src",
     "install": "npm run build",
