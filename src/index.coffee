@@ -23,7 +23,11 @@ extract = (template, callback) ->
       clone = _.clone subpath.parts
       [clone.slice(1)]
     else if subpath.original? and _.startsWith(subpath.original, '../')
-      clone = path.slice(0, -1)
+      clone =
+        if _.last(path) is '#'
+          path.slice(0, -2)
+        else
+          path.slice(0, -1)
       clone.push subpath.parts
       clone
     else
@@ -40,11 +44,12 @@ extract = (template, callback) ->
       when 'BlockStatement'
         _.each node.params, (child) -> visit(emit, path, child)
         newPath = path
-        if helperDetails[node.path.original]?.contextParam?
+        helper = helperDetails[node.path.original]
+        if helper?.contextParam?
           replace = (path) ->
             newPath = path
-          visit replace, path, node.params[helperDetails[node.path.original].contextParam]
-          if helperDetails[node.path.original]?.transmogrify?
+          visit replace, path, node.params[helper.contextParam]
+          if helper?.transmogrify?
             newPath = helperDetails[node.path.original]?.transmogrify(newPath)
         visit(emit, newPath, node.program)
 
@@ -58,6 +63,27 @@ extract = (template, callback) ->
 
   visit(emit, [], parsed)
 
+extractSchema = (template) ->
+  obj = {}
+  callback = (path) ->
+    augment = (obj, path) ->
+      if not(_.isEmpty(path))
+        obj._type = 'object'
+        segment = _.head(path)
+        if segment is '#' then obj._type = 'array'
+        obj[segment] = obj[segment] or {}
+        augment(obj[segment], _.tail(path))
+      else
+        obj._type = 'any'
+        obj
+    augment(obj, path)
+  extract(template, callback)
+  obj
+
 
 module.exports =
+
   extract: extract
+
+  extractSchema: extractSchema
+
