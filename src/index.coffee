@@ -57,7 +57,11 @@ extract = (template, callback) ->
         emit extend(path, node)
 
       when 'MustacheStatement'
-        visit(emit, path, node.path)
+        if _.isEmpty(node.params)
+          visit(emit, path, node.path)
+        else
+          _.each node.params, (child) ->
+            visit(emit, path, child)
 
     return
 

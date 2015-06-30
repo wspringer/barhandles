@@ -53,3 +53,7 @@ describe 'extract', ->
     expect(schema.foo).to.have.property '#'
     expect(schema.foo['#']).to.have.property 'bar'
     expect(schema.foo['#'].bar).to.have.property '_type', 'any'
+
+  it 'should handle simple helpers correctly', ->
+    extract '{{currency amount}}', emit
+    expect(emit).to.be.calledWith ['amount']
