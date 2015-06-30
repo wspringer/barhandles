@@ -24,7 +24,7 @@ barhandles.extract('{{#with foo}}{{#each bar}}{{../baz}}{{/each}}{{/with}}', cal
 Barhandles also allows you to generate a hierarchical schema from your object model. 
 
 ```javascript
-barhandlers.extractSchema({{foo.bar}}');
+barhandlers.extractSchema('{{foo.bar}}');
 ```
 
 will produce:
