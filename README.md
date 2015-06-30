@@ -14,5 +14,8 @@ barhandles.extract('{{#with foo}}{{bar}}{{/with}}', callback);
 barhandles.extract('{{#each foo}}{{bar}}{{/each}}', callback);
 // Callback will be invoked with ['foo', '#', 'bar']
 
+barhandles.extract('{{#with foo}}{{#each bar}}{{../baz}}{{/each}}{{/with}}', callback);
+// Callback will be invoked with ['foo','baz']
+
 ```
 
