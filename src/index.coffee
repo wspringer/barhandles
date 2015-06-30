@@ -1,7 +1,10 @@
 Handlebars = require 'handlebars'
 _          = require 'lodash'
 
-extract = (template, emit) ->
+extract = (template, callback) ->
+
+  emit = (segs) ->
+    callback(_.flatten(segs))
 
   helperDetails =
     each:
@@ -18,11 +21,14 @@ extract = (template, emit) ->
   extend = (path, subpath) ->
     if subpath.original? and _.startsWith(subpath.original, '@root')
       clone = _.clone subpath.parts
-      clone.slice 1
+      [clone.slice(1)]
+    else if subpath.original? and _.startsWith(subpath.original, '../')
+      clone = path.slice(0, -1)
+      clone.push subpath.parts
+      clone
     else
       clone = _.clone path
-      _.each subpath.parts, (level) ->
-        clone.push(level)
+      clone.push subpath.parts
       clone
 
   visit = (emit, path, node) ->
