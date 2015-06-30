@@ -21,8 +21,12 @@ describe 'extract', ->
 
   it "should support 'each'", ->
     extract '{{#each foo}}{{bar}}{{/each}}', emit
-    expect(emit).to.be.calledWith ['foo', 'bar']
+    expect(emit).to.be.calledWith ['foo', '#', 'bar']
 
   it "should support 'with'", ->
     extract '{{#with foo}}{{bar}}{{/with}}', emit
     expect(emit).to.be.calledWith ['foo', 'bar']
+
+  it "should support '@root'", ->
+    extract '{{#each foo.bar}}{{@root.bar}}{{/each}}', emit
+    expect(emit).to.be.calledWith ['bar']

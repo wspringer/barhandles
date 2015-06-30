@@ -5,9 +5,13 @@ extract = (template, emit) ->
 
   helperDetails =
     each:
-      context: 0
+      contextParam: 0
+      transmogrify: (path) ->
+        clone = path.slice 0
+        clone.push('#')
+        clone
     with:
-      context: 0
+      contextParam: 0
 
   parsed = Handlebars.parse(template)
 
@@ -30,10 +34,12 @@ extract = (template, emit) ->
       when 'BlockStatement'
         _.each node.params, (child) -> visit(emit, path, child)
         newPath = path
-        if helperDetails[node.path.original]?.context?
+        if helperDetails[node.path.original]?.contextParam?
           replace = (path) ->
             newPath = path
-          visit replace, path, node.params[helperDetails[node.path.original].context]
+          visit replace, path, node.params[helperDetails[node.path.original].contextParam]
+          if helperDetails[node.path.original]?.transmogrify?
+            newPath = helperDetails[node.path.original]?.transmogrify(newPath)
         visit(emit, newPath, node.program)
 
       when 'PathExpression'
@@ -42,8 +48,9 @@ extract = (template, emit) ->
       when 'MustacheStatement'
         visit(emit, path, node.path)
 
+    return
+
   visit(emit, [], parsed)
-  return
 
 
 module.exports =
