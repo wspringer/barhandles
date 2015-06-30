@@ -2,7 +2,7 @@
 
 A proof of concept to check how hard it would be to extract variable references from Handlebars templates.
 
-### 1 Minute Overview
+### One Minute Overview
 
 ```javascript
 barhandles = require('barhandles');
