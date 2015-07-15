@@ -35,6 +35,11 @@ describe 'extract', ->
     extract '{{#with foo}}{{#each bar}}{{../baz}}{{/each}}{{/with}}', emit
     expect(emit).to.be.calledWith ['foo', 'baz']
 
+  it 'should be able to deal with simple extensions', ->
+    extract '{{alt foo.bar foo.baz}}', emit
+    expect(emit).to.be.calledWith ['foo','bar']
+    expect(emit).to.be.calledWith ['foo','baz']
+
   it "should support generating a schema", ->
     expect(extractSchema).to.be.defined
     expect(extractSchema).to.be.a 'function'
