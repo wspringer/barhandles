@@ -6,8 +6,8 @@ extract = (template, callback) ->
   ###*
    * Notifies the client of references found.
   ###
-  emit = (segs) ->
-    callback(_.flatten(segs))
+  emit = (segs, optional) ->
+    callback(_.flatten(segs), optional)
 
   ###*
    * The definition of how to handle different types of directives. 
@@ -34,6 +34,9 @@ extract = (template, callback) ->
         clone
     with:
       contextParam: 0
+    if:
+      optional: true
+      
 
   ###*
    * The data structure of the parsed handlebars template.
@@ -69,33 +72,33 @@ extract = (template, callback) ->
       clone.push subpath.parts
       clone
 
-  visit = (emit, path, node) ->
+  visit = (emit, path, node, optional = false) ->
     switch node.type
 
       when 'Program'
-        _.each node.body, (child) -> visit(emit, path, child)
+        _.each node.body, (child) -> visit(emit, path, child, optional)
 
       when 'BlockStatement'
-        _.each node.params, (child) -> visit(emit, path, child)
         newPath = path
         helper = helperDetails[node.path.original]
+        _.each node.params, (child) -> visit(emit, path, child, optional || helper.optional)
         if helper?.contextParam?
           replace = (path) ->
             newPath = path
           visit replace, path, node.params[helper.contextParam]
           if helper?.transmogrify?
             newPath = helperDetails[node.path.original]?.transmogrify(newPath)
-        visit(emit, newPath, node.program)
+        visit(emit, newPath, node.program, optional || helper.optional)
 
       when 'PathExpression'
-        emit extend(path, node)
+        emit extend(path, node), optional
 
       when 'MustacheStatement'
         if _.isEmpty(node.params)
-          visit(emit, path, node.path)
+          visit(emit, path, node.path, optional)
         else
           _.each node.params, (child) ->
-            visit(emit, path, child)
+            visit(emit, path, child, optional)
 
     return
 
@@ -107,7 +110,7 @@ extract = (template, callback) ->
  * 
  * @param  {String} template The Handlebars template, as a String.
  * @return {Object}          Our own schema.
-###
+### 
 extractSchema = (template) ->
   obj = {}
   callback = (path) ->

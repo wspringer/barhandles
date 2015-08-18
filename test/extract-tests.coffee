@@ -63,3 +63,7 @@ describe 'extract', ->
     extract '{{currency amount}}', emit
     expect(emit).to.be.calledWith ['amount']
 
+  it 'should deal with ifs in a meaningful way', ->
+    extract '{{#if foo}}{{foo.bar}}{{/if}}', emit
+    expect(emit).to.be.calledWith ['foo'], true
+    expect(emit).to.be.calledWith ['foo', 'bar'], true
