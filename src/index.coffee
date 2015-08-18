@@ -1,7 +1,7 @@
 Handlebars = require 'handlebars'
 _          = require 'lodash'
 
-extract = (template, callback) ->
+extract = (template, callback, opts = {}) ->
 
   ###*
    * Notifies the client of references found.
@@ -28,7 +28,7 @@ extract = (template, callback) ->
    * The `optional` parameter indicates wether any further deeper references should be considered
    * optional or not.
   ###
-  helperDetails =
+  helperDetails = _.merge {},
     each:
       contextParam: 0
       transmogrify: (path) ->
@@ -39,7 +39,7 @@ extract = (template, callback) ->
       contextParam: 0
     if:
       optional: true
-      
+  , opts
 
   ###*
    * The data structure of the parsed handlebars template.
@@ -97,11 +97,12 @@ extract = (template, callback) ->
         emit extend(path, node), optional
 
       when 'MustacheStatement'
+        helper = helperDetails[node.path.original]
         if _.isEmpty(node.params)
           visit(emit, path, node.path, optional)
         else
           _.each node.params, (child) ->
-            visit(emit, path, child, optional)
+            visit(emit, path, child, optional || helper?.optional)
 
     return
 
@@ -114,7 +115,7 @@ extract = (template, callback) ->
  * @param  {String} template The Handlebars template, as a String.
  * @return {Object}          Our own schema.
 ### 
-extractSchema = (template) ->
+extractSchema = (template, opts) ->
   obj = {}
   callback = (path, optional) ->
     augment = (obj, path) ->
@@ -131,7 +132,7 @@ extractSchema = (template) ->
         obj._type = 'any'
         obj
     augment(obj, path)
-  extract(template, callback)
+  extract(template, callback, opts)
   delete obj._optional
   obj
 

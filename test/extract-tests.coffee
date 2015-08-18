@@ -81,3 +81,13 @@ describe 'extract', ->
     expect(schema.foo).to.have.property '_optional', false
     expect(schema.foo).to.have.property 'bar'
     expect(schema.foo.bar).to.have.property '_optional', true
+
+  it 'should allow you to add definitions for other directives', ->
+    template = """
+{{alt foo.bar foo.baz}}
+"""
+    extract template, emit,
+      alt:
+        optional: true
+    expect(emit).to.be.calledWith ['foo','bar'], true
+
