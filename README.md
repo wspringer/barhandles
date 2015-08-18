@@ -48,6 +48,7 @@ will produce:
 
 ### Change log
 
+* `v0.4.1`: Add support for adding behaviour of other directives
 * `v0.4.0`: Support for `{{#if}}` and optionals.
 * `v0.3.0`: Support for extracting a schema. 
 * `v0.2.0`: Initial version
