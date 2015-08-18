@@ -24,6 +24,9 @@ extract = (template, callback) ->
    *
    * The `transmogrify` function is taking the paths found in the directive and adjusting them
    * in whatever way you deem appropriate.
+   *
+   * The `optional` parameter indicates wether any further deeper references should be considered
+   * optional or not.
   ###
   helperDetails =
     each:
@@ -113,8 +116,11 @@ extract = (template, callback) ->
 ### 
 extractSchema = (template) ->
   obj = {}
-  callback = (path) ->
+  callback = (path, optional) ->
     augment = (obj, path) ->
+      obj._optional =
+        if _.has(obj, '_optional') then optional && obj._optional
+        else optional
       if not(_.isEmpty(path))
         obj._type = 'object'
         segment = _.head(path)
@@ -126,6 +132,7 @@ extractSchema = (template) ->
         obj
     augment(obj, path)
   extract(template, callback)
+  delete obj._optional
   obj
 
 

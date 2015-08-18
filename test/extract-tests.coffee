@@ -67,3 +67,17 @@ describe 'extract', ->
     extract '{{#if foo}}{{foo.bar}}{{/if}}', emit
     expect(emit).to.be.calledWith ['foo'], true
     expect(emit).to.be.calledWith ['foo', 'bar'], true
+
+  it 'should deal with optionals correctly while generating a schema', ->
+    template = """
+{{foo.baz}}
+{{#if foo}}
+{{@root.go}}
+{{foo.bar.yoyo}}
+{{/if}}
+"""
+    schema = extractSchema(template)
+    expect(schema).to.have.property 'foo'
+    expect(schema.foo).to.have.property '_optional', false
+    expect(schema.foo).to.have.property 'bar'
+    expect(schema.foo.bar).to.have.property '_optional', true
