@@ -39,7 +39,7 @@ will produce:
     "_type": "object",
     "_optional": false,
     "bar": {
-      "_type": "any"
+      "_type": "any",
       "_optional": false
     }
   }
