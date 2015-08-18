@@ -62,3 +62,4 @@ describe 'extract', ->
   it 'should handle simple helpers correctly', ->
     extract '{{currency amount}}', emit
     expect(emit).to.be.calledWith ['amount']
+
