@@ -23,6 +23,14 @@ describe 'extract', ->
     extract '{{#each foo}}{{bar}}{{/each}}', emit
     expect(emit).to.be.calledWith ['foo', '#', 'bar']
 
+  it "should support 'each' without getting hung up on @index", ->
+    extract """
+{{#each foo}}{{@index}}{{/each}}
+"""
+      , emit
+    expect(emit).not.to.be.calledWith ['foo', '#', 'index']
+
+
   it "should support 'with'", ->
     extract '{{#with foo}}{{bar}}{{/with}}', emit
     expect(emit).to.be.calledWith ['foo', 'bar']

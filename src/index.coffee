@@ -60,7 +60,11 @@ extract = (template, callback, opts = {}) ->
       clone = _.clone subpath.parts
       [clone.slice(1)]
     # Deal with parent references. Seems to be incomplete. 
-    # @todo Make this recursive      
+    # @todo Make this recursive
+
+    # Ignoring @index and @key
+    else if subpath.original is '@key' or subpath.original is '@index'
+
     else if subpath.original? and _.startsWith(subpath.original, '../')
       clone =
         if _.last(path) is '#'
