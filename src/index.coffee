@@ -88,14 +88,14 @@ extract = (template, callback, opts = {}) ->
       when 'BlockStatement'
         newPath = path
         helper = helperDetails[node.path.original]
-        _.each node.params, (child) -> visit(emit, path, child, optional || helper.optional)
+        _.each node.params, (child) -> visit(emit, path, child, optional || helper?.optional)
         if helper?.contextParam?
           replace = (path) ->
             newPath = path
           visit replace, path, node.params[helper.contextParam]
           if helper?.transmogrify?
             newPath = helperDetails[node.path.original]?.transmogrify(newPath)
-        visit(emit, newPath, node.program, optional || helper.optional)
+        visit(emit, newPath, node.program, optional || helper?.optional)
 
       when 'PathExpression'
         emit extend(path, node), optional
