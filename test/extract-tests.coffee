@@ -99,3 +99,12 @@ describe 'extract', ->
         optional: true
     expect(emit).to.be.calledWith ['foo','bar'], true
 
+  it 'should consider all parts of a ternary operator to be optional', ->
+    template = """
+{{ternary foo.bar foo.baz foo.gum}}
+"""
+    schema = extractSchema template,
+      ternary:
+        optional: true
+    console.info  JSON.stringify schema, null, 2
+
