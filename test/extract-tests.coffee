@@ -106,5 +106,15 @@ describe 'extract', ->
     schema = extractSchema template,
       ternary:
         optional: true
-    console.info  JSON.stringify schema, null, 2
+    expect(schema).to.have.deep.property 'foo.bar._optional', true
+    expect(schema).to.have.deep.property 'foo.baz._optional', true
+    expect(schema).to.have.deep.property 'foo.gum._optional', true
+
+  it 'should ignore variables starting with @', ->
+    template = """
+{{@foo.bar}}
+"""
+    schema = extractSchema template
+    expect(schema).to.not.have.property 'foo'
+
 

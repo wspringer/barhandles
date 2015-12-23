@@ -63,7 +63,7 @@ extract = (template, callback, opts = {}) ->
     # @todo Make this recursive
 
     # Ignoring @index and @key
-    else if subpath.original is '@key' or subpath.original is '@index'
+    else if subpath.original.startsWith '@'
 
     else if subpath.original? and _.startsWith(subpath.original, '../')
       clone =
