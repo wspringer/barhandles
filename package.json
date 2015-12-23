@@ -28,7 +28,7 @@
     "sinon-chai": "^2.8.0"
   },
   "dependencies": {
-    "handlebars": "^3.0.3",
+    "handlebars": ">=3.0.3",
     "lodash": "^3.9.3"
   }
 }
