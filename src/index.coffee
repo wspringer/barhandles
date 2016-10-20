@@ -126,7 +126,7 @@ extractSchema = (template, opts) ->
       obj._optional =
         if _.has(obj, '_optional') then optional && obj._optional
         else optional
-      if not(_.isEmpty(path))
+      if not(_.isEmpty(path) or (path.length is 1 and path[0] is 'length'))
         obj._type = 'object'
         segment = _.head(path)
         if segment is '#' then obj._type = 'array'

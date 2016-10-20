@@ -117,4 +117,12 @@ describe 'extract', ->
     schema = extractSchema template
     expect(schema).to.not.have.property 'foo'
 
+  it 'should not consider something with length property to be an object', ->
+    template = """
+{{foo.length}}
+"""
+    schema = extractSchema template
+    expect(schema).to.have.property 'foo'
+    expect(schema.foo).to.have.property '_type', 'any'
+
 
