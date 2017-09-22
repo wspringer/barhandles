@@ -1,5 +1,9 @@
 # CHANGES
 
+### Version 0.5.1
+
+* Move CoffeeScript compilation to prepublish phase
+
 ### Version 0.5
 
 * Not considering a `.length` reference as an indicator it's an object.
