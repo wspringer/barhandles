@@ -1,6 +1,6 @@
 # CHANGES
 
-### Version 0.5.1
+### Version 0.5.2
 
 * Move CoffeeScript compilation to prepublish phase
 
