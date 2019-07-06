@@ -13,7 +13,7 @@
   "scripts": {
     "build": "coffee -m -o lib -c src",
     "prepublish": "npm run build",
-    "test": "mocha --recursive -C --compilers coffee:coffee-script/register test"
+    "test": "mocha --recursive -C --require coffee-script/register test/**/*.coffee"
   },
   "keywords": [
     "handlebars"
@@ -23,12 +23,12 @@
   "devDependencies": {
     "chai": "^3.0.0",
     "coffee-script": "^1.9.3",
-    "mocha": "^2.2.5",
+    "mocha": "^6.1.4",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0"
   },
   "dependencies": {
     "handlebars": ">=3.0.3",
-    "lodash": "^3.9.3"
+    "lodash": "^4.17.11"
   }
 }
