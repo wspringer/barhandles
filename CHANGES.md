@@ -1,5 +1,9 @@
 # CHANGES
 
+### Version 0.5.4
+
+* Fix some vulnerabilities
+
 ### Version 0.5.3
 
 * Move CoffeeScript compilation to prepublish phase
