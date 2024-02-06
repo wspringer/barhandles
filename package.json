@@ -1,6 +1,6 @@
 {
   "name": "barhandles",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "Extract references from Handlebars templates",
   "main": "lib/index.js",
   "directories": {
@@ -11,9 +11,9 @@
     "url": "https://github.com/wspringer/barhandles/"
   },
   "scripts": {
-    "build": "coffee -m -o lib -c src",
+    "build": "cp src/index.js lib",
     "prepublish": "npm run build",
-    "test": "mocha --recursive -C --require coffee-script/register test/**/*.coffee"
+    "test": "jest"
   },
   "keywords": [
     "handlebars"
@@ -21,11 +21,7 @@
   "author": "Wilfred Springer",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^3.0.0",
-    "coffee-script": "^1.9.3",
-    "mocha": "^6.1.4",
-    "sinon": "^1.15.4",
-    "sinon-chai": "^2.8.0"
+    "jest": "^29.7.0"
   },
   "dependencies": {
     "handlebars": "^4.7.6",
